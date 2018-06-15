@@ -14,6 +14,7 @@ __license__ = "MIT"
 
 import logging
 import coloredlogs
+from pygcode import Machine, Line
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -61,13 +62,16 @@ class grbl_interpret:
     Mostly just makes sure valid gcode is being used
     '''
     def __init__(self):
-        self.modal_state = ['G0', 'G54', 'G17', 'G21', 'G90', 'G94', 'M0', 'M5', 'M9', 'T0', 'F0.', 'S0.']
         self.state_pos = {'state': IDLE,
                           'mpos': [0.000, 0.000, 0.000],
                           'wpos': [0.000, 0.000, 0.000],
                           'plan buf': 0,
                           'rx buf': 0
                          }
+        self.mach = Machine()
+
+    def input(self, line):
+        pass
 
 
 class Serial:
