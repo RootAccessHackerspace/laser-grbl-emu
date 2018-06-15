@@ -15,6 +15,9 @@ __license__ = "MIT"
 import logging
 import coloredlogs
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 class Serial:
     
     def __init__(self, port='/dev/ttyAMA0', baudrate=115200, timeout=1, bytesize=8,
@@ -30,9 +33,10 @@ class Serial:
         self.rtscts = rtscts
         self._open = True
         self._received_data = ''
-        self._data = 'Grbl v1.1f ['$' for help]\n'
+        self._data = 'Grbl v1.1f [\'$\' for help]\n'
+        logger.debug('fakeSerial initialized')
 
-    def isOpen(self):
+    def is_open(self):
         return self._open
 
     def open(self):
@@ -47,7 +51,8 @@ class Serial:
             buff = self._data[0:n]
             self._data = self._data[n:]
         except IndexError:
-            buff = ""
+            logger.debug('No data in buffer')
+            buff = ''
         return buff
 
     def readline(self):
@@ -58,11 +63,14 @@ class Serial:
                 buff = self._data[0:newline+1]
                 self._data = self._data[newline+1:]
             else:
+                logger.debug('No data in buffer')
                 buff = ''
         except IndexError:
+            logger.debug('No data in buffer')
             buff = ''
         return buff
 
     def write(self, string):
         # TODO: Process the string written to append the appropriate response
+        logger.info('fakeSerial received %s', string)
         self._received_data += string
