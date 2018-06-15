@@ -8,6 +8,13 @@
 # Dylan Armitage
 ##############################################################################
 
+__author__ = "Dylan Armitage"
+__email__ = "d.armitage89@gmail.com"
+__license__ = "MIT"
+
+import logging
+import coloredlogs
+
 class Serial:
     
     def __init__(self, port='/dev/ttyAMA0', baudrate=115200, timeout=1, bytesize=8,
@@ -55,3 +62,7 @@ class Serial:
         except IndexError:
             buff = ''
         return buff
+
+    def write(self, string):
+        # TODO: Process the string written to append the appropriate response
+        self._received_data += string
